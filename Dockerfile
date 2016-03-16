@@ -1,4 +1,4 @@
-FROM rawmind/rancher-monit:0.3.3-2
+FROM rawmind/alpine-monit:0.3.3-2
 MAINTAINER Raul Sanchez <rawmind@gmail.com>
 
 # Install and configure nginx
