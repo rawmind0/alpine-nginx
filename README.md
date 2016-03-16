@@ -17,7 +17,7 @@ docker run -it <repo>/alpine-nginx:<version>
 
 ## Versions
 
-- `0.0.2` [(Dockerfile)](https://descinet.bbva.es/stash/projects/CLOUDFRAME/repos/alpine-nginx/browse/Dockerfile)
+- `0.0.1` [(Dockerfile)](https://github.com/rawmind0/alpine-nginx/blob/master/Dockerfile)
 
 ## Usage
 
