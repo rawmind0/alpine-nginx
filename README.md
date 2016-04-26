@@ -1,26 +1,21 @@
 alpine-nginx
 =============
 
-alpine-nginx image based in alpine-monit
+This image is the nginx base. It comes from rawmind/alpine-monit.
 
-To build
-
-```
-docker build -t <repo>/alpine-nginx:<version> .
-```
-
-To run:
+## Build
 
 ```
-docker run -it <repo>/alpine-nginx:<version> 
+docker build -t rawmind/alpine-nginx:<version> .
 ```
 
 ## Versions
 
-- `0.0.1` [(Dockerfile)](https://github.com/rawmind0/alpine-nginx/blob/master/Dockerfile)
+- `1.9.15` [(Dockerfile)](https://github.com/rawmind0/alpine-nginx/blob/master/Dockerfile)
+
 
 ## Usage
 
-To use this image include `FROM <repo>/alpine-nginx` at the top of your `Dockerfile`, and add your site files to /opt/www and your nginx config to /etc/nginx/conf.d
+To use this image include `FROM rawmind/alpine-nginx` at the top of your `Dockerfile`, and add your site files to /opt/nginx/www and your nginx config to /opt/nginx/sites
 
 The nginx service is started with monit and check for the 80 port is listening.

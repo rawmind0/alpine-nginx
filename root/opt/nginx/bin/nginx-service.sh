@@ -8,12 +8,12 @@ function log {
 
 function serviceStart {
     log "[ Starting ${SERVICE_NAME}... ]"
-    /usr/sbin/nginx
+    /opt/nginx/bin/nginx
 }
 
 function serviceStop {
     log "[ Stoping ${SERVICE_NAME}... ]"
-    pid=$(cat /var/run/nginx.pid)
+    pid=$(cat /opt/nginx/run/nginx.pid)
     kill -SIGTERM $pid
 }
 
