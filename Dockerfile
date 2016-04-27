@@ -8,7 +8,7 @@ ENV NGINX_VERSION=1.9.15 \
 ENV PATH=${PATH}:${NGINX_HOME}/bin 
 
 # Compile and install nginx
-RUN apk add --update gcc musl-dev make openssl-dev pcre-dev zlib-dev\
+RUN apk add --update gcc musl-dev make openssl-dev pcre pcre-dev zlib-dev\
   && mkdir -p /opt/src; cd /opt/src \
   && curl -sS ${NGINX_URL}/nginx-${NGINX_VERSION}.tar.gz | gunzip -c - | tar -xf - \
   && cd /opt/src/nginx-${NGINX_VERSION} \
