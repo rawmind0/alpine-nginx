@@ -1,19 +1,33 @@
 #!/usr/bin/env bash
 
-SERVICE_NAME=nginx
-
 function log {
         echo `date` $ME - $@
 }
 
+function serviceLog {
+    log "[ Redirecting ${SERVICE_NAME} log... ]"
+    if [ -e ${SERVICE_HOME}/log/error.log ]; then
+        rm ${SERVICE_HOME}/log/error.log
+    fi
+    ln -sf /proc/1/fd/1 ${SERVICE_HOME}/log/error.log
+}
+
+function serviceConf {
+    log "[ Configuring ${SERVICE_NAME}... ]"
+    if [ ! -e ${SERVICE_HOME}/conf/nginx.conf ]; then
+        ${SERVICE_HOME}/bin/nginx-config.sh
+    fi
+}
+
 function serviceStart {
     log "[ Starting ${SERVICE_NAME}... ]"
-    /opt/nginx/bin/nginx
+    serviceConf
+    ${SERVICE_HOME}/bin/nginx
 }
 
 function serviceStop {
     log "[ Stoping ${SERVICE_NAME}... ]"
-    pid=$(cat /opt/nginx/run/nginx.pid)
+    pid=$(cat ${SERVICE_HOME}/run/nginx.pid)
     kill -SIGTERM $pid
 }
 
