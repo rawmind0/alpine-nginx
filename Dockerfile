@@ -9,7 +9,7 @@ ENV SERVICE_VERSION=1.9.15 \
     SERVICE_USER=nginx \
     SERVICE_UID=10004 \
     SERVICE_GROUP=nginx \
-    SERVICE_GID=10004 \
+    SERVICE_GID=10004 
 ENV PATH=${PATH}:${SERVICE_HOME}/bin 
 
 # Compile and install nginx
