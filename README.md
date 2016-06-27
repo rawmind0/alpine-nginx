@@ -11,7 +11,7 @@ docker build -t rawmind/alpine-nginx:<version> .
 
 ## Versions
 
-- `1.10.1-3` [(Dockerfile)](https://github.com/rawmind0/alpine-nginx/blob/1.10.1-3/Dockerfile)
+- `1.10.1-4` [(Dockerfile)](https://github.com/rawmind0/alpine-nginx/blob/1.10.1-4/Dockerfile)
 - `1.9.15-3` [(Dockerfile)](https://github.com/rawmind0/alpine-nginx/blob/1.9.15-3/Dockerfile)
 
 
