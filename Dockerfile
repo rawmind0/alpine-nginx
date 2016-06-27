@@ -1,4 +1,4 @@
-FROM rawmind/alpine-monit:0.5.18-1
+FROM rawmind/alpine-monit:0.5.18-4
 MAINTAINER Raul Sanchez <rawmind@gmail.com>
 
 #Set environment
@@ -40,6 +40,6 @@ RUN chmod +x ${SERVICE_HOME}/bin/*.sh \
   && chown -R ${SERVICE_USER}:${SERVICE_GROUP} ${SERVICE_HOME} /opt/monit
 
 USER $SERVICE_USER
-WORKDIR $NGINX_HOME
+WORKDIR $SERVICE_HOME
 
 EXPOSE 8080 8443
