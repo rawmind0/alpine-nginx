@@ -11,26 +11,24 @@ docker build -t rawmind/alpine-nginx:<version> .
 
 ## Versions
 
-- `1.10.1-4` [(Dockerfile)](https://github.com/rawmind0/alpine-nginx/blob/1.10.1-4/Dockerfile)
+- `1.10.1-5` [(Dockerfile)](https://github.com/rawmind0/alpine-nginx/blob/1.10.1-5/Dockerfile)
 - `1.9.15-3` [(Dockerfile)](https://github.com/rawmind0/alpine-nginx/blob/1.9.15-3/Dockerfile)
 
 
 ## Configuration
 
-This image runs [nginx][nginx] with monit. nginx is started with user and group "nginx" and uid/gid "10004".
+This image runs [nginx][nginx] with monit.
 
 Besides, you can customize the configuration in several ways:
 
 ### Default Configuration
 
-nginx is installed with the default configuration listening at 8080 and 8443 ports
+nginx is installed with the default configuration listening at 8080 and 8443 ports 
 
 
 ### Custom Configuration
 
 Nginx is installed under /opt/nginx and make use of /opt/nginx/conf/nginx.conf and /opt/nginx/sites/*.conf.
-
-You can edit this files in order customize configuration
 
 You could also include `FROM rawmind/alpine-nginx` at the top of your `Dockerfile`, and add your site files to /opt/nginx/www and your nginx config to /opt/nginx/sites
 

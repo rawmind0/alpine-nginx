@@ -5,11 +5,7 @@ MAINTAINER Raul Sanchez <rawmind@gmail.com>
 ENV SERVICE_VERSION=1.10.1 \
     SERVICE_NAME=nginx \
     SERVICE_HOME=/opt/nginx \
-    SERVICE_URL=http://nginx.org/download \
-    SERVICE_USER=nginx \
-    SERVICE_UID=10004 \
-    SERVICE_GROUP=nginx \
-    SERVICE_GID=10004 
+    SERVICE_URL=http://nginx.org/download 
 ENV PATH=${PATH}:${SERVICE_HOME}/bin 
 
 # Compile and install nginx
@@ -30,16 +26,12 @@ RUN apk add --update gcc musl-dev make openssl-dev pcre pcre-dev zlib-dev\
   && make -j2 \
   && make install \
   && apk del gcc musl-dev make openssl-dev pcre-dev zlib-dev \
-  && rm -rf /opt/src /var/cache/apk/* \
-  && addgroup -g ${SERVICE_GID} ${SERVICE_GROUP} \
-  && adduser -g "${SERVICE_NAME} user" -D -h ${SERVICE_HOME} -G ${SERVICE_GROUP} -s /sbin/nologin -u ${SERVICE_UID} ${SERVICE_USER} 
+  && rm -rf /opt/src /var/cache/apk/* 
 
 # Add config files
 ADD root /
-RUN chmod +x ${SERVICE_HOME}/bin/*.sh \
-  && chown -R ${SERVICE_USER}:${SERVICE_GROUP} ${SERVICE_HOME} /opt/monit
+RUN chmod +x ${SERVICE_HOME}/bin/*.sh 
 
-#USER $SERVICE_USER
 WORKDIR $SERVICE_HOME
 
 EXPOSE 8080 8443

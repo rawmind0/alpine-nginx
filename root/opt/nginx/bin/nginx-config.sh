@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+SERVICE_USER=${SERVICE_USER:-"root"}
+
 cat << EOF > ${SERVICE_HOME}/conf/nginx.conf
 user  ${SERVICE_USER};
 worker_processes  2;
