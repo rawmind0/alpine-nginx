@@ -1,4 +1,4 @@
-#!/usr/bin/env sh
+#!/usr/bin/env bash
 
 cat << EOF > ${SERVICE_HOME}/conf/nginx.conf
 user  ${SERVICE_USER};
@@ -34,7 +34,9 @@ http {
 }
 EOF
 
-cat << EOF > ${SERVICE_HOME}/sites/example.conf
+if [ ! -f ${SERVICE_HOME}/sites/*.conf ]; then
+
+    cat << EOF > ${SERVICE_HOME}/sites/example.conf
 server {
         listen 8080 default_server;
 
@@ -51,3 +53,4 @@ server {
         }
 }
 EOF
+fi
