@@ -17,7 +17,7 @@ docker build -t rawmind/alpine-nginx:<version> .
 
 ## Configuration
 
-This image runs [nginx][nginx] with monit. nginx is started with user and group "nginx".
+This image runs [nginx][nginx] with monit. nginx is started with user and group "nginx" and uid/gid "10004".
 
 Besides, you can customize the configuration in several ways:
 
