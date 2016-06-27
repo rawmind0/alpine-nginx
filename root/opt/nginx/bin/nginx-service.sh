@@ -1,15 +1,18 @@
 #!/usr/bin/env bash
 
+SERVICE_LOG_DIR=${KAFKA_LOG_DIRS:-${SERVICE_HOME}"/log"}
+SERVICE_LOG_FILE=${SERVICE_LOG_FILE:-${SERVICE_LOG_DIR}"/error.log"}
+
 function log {
         echo `date` $ME - $@
 }
 
 function serviceLog {
-    log "[ Redirecting ${SERVICE_NAME} log... ]"
-    if [ -e ${SERVICE_HOME}/log/error.log ]; then
-        rm ${SERVICE_HOME}/log/error.log
+    log "[ Redirecting ${SERVICE_NAME} log to stdout... ]"
+    if [ ! -L ${SERVICE_LOG_FILE} ]; then
+        rm ${SERVICE_LOG_FILE}
+        ln -sf /proc/1/fd/1 ${SERVICE_LOG_FILE}
     fi
-    ln -sf /proc/1/fd/1 ${SERVICE_HOME}/log/error.log
 }
 
 function serviceConf {
@@ -35,6 +38,7 @@ function serviceRestart {
     log "[ Restarting ${SERVICE_NAME}... ]"
     serviceStop
     serviceStart
+    /opt/monit/bin/monit reload
 }
 
 case "$1" in
