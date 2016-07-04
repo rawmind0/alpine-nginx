@@ -26,7 +26,7 @@ RUN apk add --update gcc musl-dev make openssl-dev pcre pcre-dev zlib-dev\
   && make -j2 \
   && make install \
   && apk del gcc musl-dev make openssl-dev pcre-dev zlib-dev \
-  && rm -rf /opt/src /var/cache/apk/* 
+  && rm -rf /opt/src /var/cache/apk/* ${SERVICE_HOME}/conf/nginx.conf
 
 # Add config files
 ADD root /
