@@ -1,10 +1,15 @@
-FROM rawmind/alpine-monit:0.5.19-1
+FROM rawmind/alpine-monit:0.5.19-2
 MAINTAINER Raul Sanchez <rawmind@gmail.com>
 
 #Set environment
 ENV SERVICE_VERSION=1.10.2 \
     SERVICE_NAME=nginx \
     SERVICE_HOME=/opt/nginx \
+    SERVICE_USER=nginx \
+    SERVICE_UID=10025 \
+    SERVICE_GROUP=nginx \
+    SERVICE_GID=10025 \
+    SERVICE_VOLUME=/opt/tools \
     SERVICE_URL=http://nginx.org/download 
 ENV PATH=${PATH}:${SERVICE_HOME}/bin 
 
@@ -28,12 +33,16 @@ RUN apk add --update gcc musl-dev make openssl-dev pcre pcre-dev zlib-dev\
   && make -j2 \
   && make install \
   && apk del gcc musl-dev make openssl-dev pcre-dev zlib-dev \
-  && rm -rf /opt/src /var/cache/apk/* ${SERVICE_HOME}/conf/nginx.conf
+  && rm -rf /opt/src /var/cache/apk/* ${SERVICE_HOME}/conf/nginx.conf \
+  && addgroup -g ${SERVICE_GID} ${SERVICE_GROUP} \
+  && adduser -g "${SERVICE_NAME} user" -D -h ${SERVICE_HOME} -G ${SERVICE_GROUP} -s /sbin/nologin -u ${SERVICE_UID} ${SERVICE_USER}
 
 # Add config files
 ADD root /
-RUN chmod +x ${SERVICE_HOME}/bin/*.sh 
+RUN chmod +x ${SERVICE_HOME}/bin/*.sh \
+  && chown -R ${SERVICE_USER}:${SERVICE_GROUP} ${SERVICE_HOME} /opt/monit
 
+USER $SERVICE_USER
 WORKDIR $SERVICE_HOME
 
-EXPOSE 8080 8443
+EXPOSE 8080 8443 9993 5587 9995 1110 1143
