@@ -15,7 +15,8 @@ ENV PATH=${PATH}:${SERVICE_HOME}/bin
 
 # Compile and install nginx
 RUN apk add --update gcc musl-dev make openssl-dev pcre pcre-dev zlib-dev\
-  && mkdir -p /opt/src ${SERVICE_HOME}/www ${SERVICE_HOME}/sites; cd /opt/src \
+  && mkdir -p /opt/src ${SERVICE_HOME}/www ${SERVICE_HOME}/sites ${SERVICE_HOME}/mailhosts ${SERVICE_HOME}/certs \
+  && cd /opt/src \
   && curl -sS ${SERVICE_URL}/nginx-${SERVICE_VERSION}.tar.gz | gunzip -c - | tar -xf - \
   && cd /opt/src/nginx-${SERVICE_VERSION} \
   && ./configure \
