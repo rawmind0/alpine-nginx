@@ -16,6 +16,8 @@ RUN apk add --update gcc musl-dev make openssl-dev pcre pcre-dev zlib-dev\
   && ./configure \
         --with-http_ssl_module \
         --with-http_gzip_static_module \
+        --with-mail \
+        --with-mail_ssl_module \
         --prefix=${SERVICE_HOME} \
         --modules-path=${SERVICE_HOME}/modules \
         --http-log-path=${SERVICE_HOME}/log/access.log \
