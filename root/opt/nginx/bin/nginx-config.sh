@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
-SERVICE_USER=${SERVICE_USER:-"root"}
-
 cat << EOF > ${SERVICE_HOME}/conf/nginx.conf
-user  ${SERVICE_USER};
 worker_processes  2;
 
 error_log  ${SERVICE_HOME}/log/error.log warn;
@@ -13,7 +10,6 @@ pid        ${SERVICE_HOME}/run/nginx.pid;
 events {
     worker_connections  1024;
 }
-
 
 http {
     include       ${SERVICE_HOME}/conf/mime.types;
@@ -29,8 +25,7 @@ http {
     #tcp_nopush     on;
 
     keepalive_timeout  65;
-
-    #gzip  on;
+    gzip  on;
 
     include ${SERVICE_HOME}/sites/*.conf;
 }
