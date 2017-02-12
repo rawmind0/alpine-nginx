@@ -9,7 +9,7 @@ ENV SERVICE_VERSION=1.11.9 \
 ENV PATH=${PATH}:${SERVICE_HOME}/bin 
 
 # Compile and install nginx
-RUN apk add --update gcc musl-dev make openssl-dev pcre pcre-dev zlib-dev\
+RUN apk add --update gcc musl-dev make libressl-dev pcre pcre-dev zlib-dev\
   && mkdir -p /opt/src ${SERVICE_HOME}/www ${SERVICE_HOME}/sites; cd /opt/src \
   && curl -sS ${SERVICE_URL}/nginx-${SERVICE_VERSION}.tar.gz | gunzip -c - | tar -xf - \
   && cd /opt/src/nginx-${SERVICE_VERSION} \
@@ -25,7 +25,7 @@ RUN apk add --update gcc musl-dev make openssl-dev pcre pcre-dev zlib-dev\
         --lock-path=${SERVICE_HOME}/run/nginx.lock  \
   && make -j2 \
   && make install \
-  && apk del gcc musl-dev make openssl-dev pcre-dev zlib-dev \
+  && apk del gcc musl-dev make libressl-dev pcre-dev zlib-dev \
   && rm -rf /opt/src /var/cache/apk/* ${SERVICE_HOME}/conf/nginx.conf
 
 # Add config files
