@@ -36,6 +36,11 @@ EOF
 
 NGINX_CONF=${NGINX_CONF:-${DEFAULT_CONF}}
 
+cat << EOF > ${SERVICE_HOME}/conf/nginx.conf
+${NGINX_CONF}
+EOF
+
+
 DEFAULT_SERVER=$(cat << EOF
 server {
     listen 8080 default_server;

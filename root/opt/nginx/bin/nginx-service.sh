@@ -24,6 +24,7 @@ function serviceConf {
 
 function serviceStart {
     log "[ Starting ${SERVICE_NAME}... ]"
+    serviceLog
     serviceConf
     ${SERVICE_HOME}/bin/nginx
 }
