@@ -34,9 +34,9 @@ http {
 EOF
 )
 
-NGINX_CONF=${NGINX_CONF:-${DEFAULT_CONF}
+NGINX_CONF=${NGINX_CONF:-${DEFAULT_CONF}}
 
-DEFAUL_SERVER=$(cat << EOF
+DEFAULT_SERVER=$(cat << EOF
 server {
     listen 8080 default_server;
 
@@ -48,7 +48,7 @@ server {
 
     location / {
 
-        ry_files \$uri \$uri/ /index.html;
+        try_files \$uri \$uri/ /index.html;
 
     }
 }
@@ -56,7 +56,7 @@ EOF
 )
 
 NGINX_SERVER_NAME=${NGINX_SERVER_NAME:-"default"}
-NGINX_SERVER_CONF=${NGINX_SERVER_CONF:-${DEFAUL_SERVER}}
+NGINX_SERVER_CONF=${NGINX_SERVER_CONF:-${DEFAULT_SERVER}}
 
 if [ ! -f ${SERVICE_HOME}/sites/*.conf ]; then
     cat << EOF > ${SERVICE_HOME}/sites/${NGINX_SERVER_NAME}.conf
