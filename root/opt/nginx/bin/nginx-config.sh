@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
-cat << EOF > ${SERVICE_HOME}/conf/nginx.conf
+
+
+DEFAULT_CONF=$(cat << EOF 
 worker_processes  2;
 
 error_log  ${SERVICE_HOME}/log/error.log warn;
@@ -30,24 +32,34 @@ http {
     include ${SERVICE_HOME}/sites/*.conf;
 }
 EOF
+)
+
+NGINX_CONF=${NGINX_CONF:-${DEFAULT_CONF}
+
+DEFAUL_SERVER=$(cat << EOF
+server {
+    listen 8080 default_server;
+
+    root ${SERVICE_HOME}/www;
+    index index.html index.htm;
+
+    # Make site accessible from http://localhost/
+    server_name localhost;
+
+    location / {
+
+        ry_files \$uri \$uri/ /index.html;
+
+    }
+}
+EOF
+)
+
+NGINX_SERVER_NAME=${NGINX_SERVER_NAME:-"default"}
+NGINX_SERVER_CONF=${NGINX_SERVER_CONF:-${DEFAUL_SERVER}}
 
 if [ ! -f ${SERVICE_HOME}/sites/*.conf ]; then
-
-    cat << EOF > ${SERVICE_HOME}/sites/example.conf
-server {
-        listen 8080 default_server;
-
-        root ${SERVICE_HOME}/www;
-        index index.html index.htm;
-
-        # Make site accessible from http://localhost/
-        server_name localhost;
-
-        location / {
-
-                try_files \$uri \$uri/ /index.html;
-
-        }
-}
+    cat << EOF > ${SERVICE_HOME}/sites/${NGINX_SERVER_NAME}.conf
+${NGINX_SERVER_CONF}
 EOF
 fi
