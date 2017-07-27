@@ -11,14 +11,14 @@ docker build -t rawmind/alpine-nginx:<version> .
 
 ## Versions
 
-- `1.12.1-3` [(Dockerfile)](https://github.com/rawmind0/alpine-nginx/blob/1.12.1-3/Dockerfile)
+- `1.12.1-4` [(Dockerfile)](https://github.com/rawmind0/alpine-nginx/blob/1.12.1-4/Dockerfile)
 - `1.11.9-1` [(Dockerfile)](https://github.com/rawmind0/alpine-nginx/blob/1.11.9-1/Dockerfile)
 - `1.10.2-1` [(Dockerfile)](https://github.com/rawmind0/alpine-nginx/blob/1.10.2-1/Dockerfile)
 - `1.10.1-9` [(Dockerfile)](https://github.com/rawmind0/alpine-nginx/blob/1.10.1-9/Dockerfile)
 - `1.9.15-3` [(Dockerfile)](https://github.com/rawmind0/alpine-nginx/blob/1.9.15-3/Dockerfile)
 
 
-## Configuration
+## Usage
 
 This image runs [nginx][nginx] with monit.
 
@@ -26,16 +26,91 @@ Besides, you can customize the configuration in several ways:
 
 ### Default Configuration
 
-nginx is installed with the default configuration listening at 8080 and 8443 ports 
+nginx is installed with the default configuration: 
+
+- SERVICE_HOME
+```
+/opt/nginx
+```
+
+- SERVICE_LOG_DIR
+```
+${SERVICE_HOME}"/log"
+```
+
+- SERVICE_LOG_FILES
+```
+${SERVICE_LOG_DIR}"/error.log"
+```
+
+- NGINX_CONF
+
+```
+worker_processes  2;
+
+error_log  ${SERVICE_HOME}/log/error.log warn;
+pid        ${SERVICE_HOME}/run/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    include       ${SERVICE_HOME}/conf/mime.types;
+    default_type  application/octet-stream;
+
+    log_format  main  '\$remote_addr - \$remote_user [\$time_local] "\$request" '
+                      '\$status \$body_bytes_sent "\$http_referer" '
+                      '"\$http_user_agent" "\$http_x_forwarded_for"';
+
+    access_log  ${SERVICE_HOME}/log/access.log  main;
+
+    sendfile        off;
+    #tcp_nopush     on;
+
+    keepalive_timeout  65;
+    gzip  on;
+
+    include ${SERVICE_HOME}/sites/*.conf;
+}
+```
+
+- NGINX_SERVER_CONF
+
+```
+server {
+    listen 8080 default_server;
+
+    root ${SERVICE_HOME}/www;
+    index index.html index.htm;
+
+    # Make site accessible from http://localhost/
+    server_name localhost;
+
+    location / {
+
+        try_files \$uri \$uri/ /index.html;
+
+    }
+}
+```
+
+- NGINX_SERVER_NAME
+```
+default
+```
 
 
 ### Custom Configuration
 
-Nginx is installed under /opt/nginx and make use of /opt/nginx/conf/nginx.conf and /opt/nginx/sites/*.conf.
+Nginx is installed under /opt/nginx and use config files /opt/nginx/conf/nginx.conf and /opt/nginx/sites/*.conf.
 
-You could overwrite nginx config, server name and and server config with env variables, ${NGINX_CONF} ${NGINX_SERVER_CONF} ${NGINX_SERVER_NAME}.
+You could overwrite nginx and/or server config and and server name setting these env variables, ${NGINX_CONF} ${NGINX_SERVER_CONF} ${NGINX_SERVER_NAME}.
 
-You could also include `FROM rawmind/alpine-nginx` at the top of your `Dockerfile`, and add your site files to /opt/nginx/www and your nginx config to /opt/nginx/sites
+Default log is configured to show /opt/nginx/log/error.log. You could override it, setting env variable ${SERVICE_LOG_FILES}. Multiple values allowed with "," separator.
+
+You could also include `FROM rawmind/alpine-nginx` at the top of your `Dockerfile`, and add your site files to /opt/nginx/www.
 
 
 

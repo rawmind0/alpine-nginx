@@ -1,18 +1,23 @@
 #!/usr/bin/env bash
 
-SERVICE_LOG_DIR=${KAFKA_LOG_DIRS:-${SERVICE_HOME}"/log"}
-SERVICE_LOG_FILE=${SERVICE_LOG_FILE:-${SERVICE_LOG_DIR}"/error.log"}
+SERVICE_LOG_DIR=${SERVICE_LOG_DIR:-${SERVICE_HOME}"/log"}
+SERVICE_LOG_FILES=${SERVICE_LOG_FILES:-${SERVICE_LOG_DIR}"/error.log"}
 
 function log {
         echo `date` $ME - $@
 }
 
 function serviceLog {
-    log "[ Redirecting ${SERVICE_NAME} log to stdout... ]"
-    if [ ! -L ${SERVICE_LOG_FILE} ]; then
-        rm ${SERVICE_LOG_FILE}
-        ln -sf /proc/1/fd/1 ${SERVICE_LOG_FILE}
-    fi
+    log "[ Redirecting ${SERVICE_NAME} logs to stdout... ]"
+    for LOG_FILE in $(echo ${SERVICE_LOG_FILES} | tr "," "\n") 
+    do
+        if [ ! -L ${LOG_FILE} ]; then
+            if [ -e ${LOG_FILE} ]; then
+                rm ${LOG_FILE}
+            fi
+            ln -sf /proc/1/fd/1 ${LOG_FILE}
+        fi
+    done
 }
 
 function serviceConf {
