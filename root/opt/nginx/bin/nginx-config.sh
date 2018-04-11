@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-
-
 DEFAULT_CONF=$(cat << EOF 
 worker_processes  2;
 
@@ -35,11 +33,13 @@ EOF
 )
 
 NGINX_CONF=${NGINX_CONF:-${DEFAULT_CONF}}
+NGINX_FILE=${SERVICE_HOME}"/conf/nginx.conf"
 
-cat << EOF > ${SERVICE_HOME}/conf/nginx.conf
+if [ ! -f ${NGINX_FILE} ]; then
+    cat << EOF > ${NGINX_FILE}
 ${NGINX_CONF}
 EOF
-
+fi
 
 DEFAULT_SERVER=$(cat << EOF
 server {
@@ -62,9 +62,28 @@ EOF
 
 NGINX_SERVER_NAME=${NGINX_SERVER_NAME:-"default"}
 NGINX_SERVER_CONF=${NGINX_SERVER_CONF:-${DEFAULT_SERVER}}
+NGINX_SERVER_FILE=${SERVICE_HOME}"/sites/"${NGINX_SERVER_NAME}".conf"
 
-if [ ! -f ${SERVICE_HOME}/sites/*.conf ]; then
-    cat << EOF > ${SERVICE_HOME}/sites/${NGINX_SERVER_NAME}.conf
+if [ ! -f ${NGINX_SERVER_FILE} ]; then
+    cat << EOF > ${NGINX_SERVER_FILE}
 ${NGINX_SERVER_CONF}
+EOF
+fi
+
+NGINX_KEY=${NGINX_KEY:-""}
+NGINX_KEY_FILE=${NGINX_KEY_FILE:-${SERVICE_HOME}"/certs/"${NGINX_SERVER_NAME}".key"}
+NGINX_CERT=${NGINX_CERT:-""}
+NGINX_CERT_FILE=${NGINX_CERT_FILE:-${SERVICE_HOME}"/certs/"${NGINX_SERVER_NAME}".crt"}
+
+if [ -n "${NGINX_KEY}" ] && [ -n "${NGINX_CERT}" ]; then
+    if [ ! -f ${NGINX_KEY_FILE} ]; then
+        cat << EOF > ${NGINX_KEY_FILE}
+${NGINX_KEY}
+EOF
+    fi
+
+    if [ ! -f ${NGINX_CERT_FILE} ]; then
+        cat << EOF > ${NGINX_CERT_FILE}
+${NGINX_CERT}
 EOF
 fi
