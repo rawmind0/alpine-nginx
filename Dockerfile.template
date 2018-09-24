@@ -7,9 +7,7 @@ if [ -n "$1" ]; then
 fi
 
 DOCKER_FILE=${DOCKER_FILE:-"Dockerfile"}
-DOCKER_FROM=${DOCKER_FROM:-"rawmind/alpine-monit:5.25-0"}
-
-echo "Generating ${DOCKER_FILE} with FROM ${DOCKER_FROM} ..."
+DOCKER_FROM=${DOCKER_FROM:-"rawmind/alpine-monit:5.25-3"}
 
 cat << EOF > ${DOCKER_FILE}
 FROM ${DOCKER_FROM}
