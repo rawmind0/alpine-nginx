@@ -14,7 +14,7 @@ FROM ${DOCKER_FROM}
 MAINTAINER Raul Sanchez <rawmind@gmail.com>
 
 #Set environment
-ENV SERVICE_VERSION=1.14.0 \
+ENV SERVICE_VERSION=1.14.2 \
     SERVICE_NAME=nginx \
     SERVICE_HOME=/opt/nginx \
     SERVICE_URL=http://nginx.org/download 
