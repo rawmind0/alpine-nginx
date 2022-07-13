@@ -1,8 +1,8 @@
-FROM rawmind/alpine-monit:5.25-3
+FROM rawmind/alpine-monit:5.32-0
 MAINTAINER Raul Sanchez <rawmind@gmail.com>
 
 #Set environment
-ENV SERVICE_VERSION=1.14.2     SERVICE_NAME=nginx     SERVICE_HOME=/opt/nginx     SERVICE_URL=http://nginx.org/download 
+ENV SERVICE_VERSION=1.23.0     SERVICE_NAME=nginx     SERVICE_HOME=/opt/nginx     SERVICE_URL=http://nginx.org/download 
 ENV PATH=${PATH}:${SERVICE_HOME}/bin 
 
 # Compile and install nginx

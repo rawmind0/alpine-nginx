@@ -7,14 +7,14 @@ if [ -n "$1" ]; then
 fi
 
 DOCKER_FILE=${DOCKER_FILE:-"Dockerfile"}
-DOCKER_FROM=${DOCKER_FROM:-"rawmind/alpine-monit:5.25-3"}
+DOCKER_FROM=${DOCKER_FROM:-"rawmind/alpine-monit:5.32-0"}
 
 cat << EOF > ${DOCKER_FILE}
 FROM ${DOCKER_FROM}
 MAINTAINER Raul Sanchez <rawmind@gmail.com>
 
 #Set environment
-ENV SERVICE_VERSION=1.14.2 \
+ENV SERVICE_VERSION=1.23.0 \
     SERVICE_NAME=nginx \
     SERVICE_HOME=/opt/nginx \
     SERVICE_URL=http://nginx.org/download 
